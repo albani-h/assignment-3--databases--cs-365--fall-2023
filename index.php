@@ -18,8 +18,6 @@ action="<?php echo $_SERVER['PHP_SELF']; ?>">
 <?php
 require_once "includes/config.php";
 require_once "includes/helpers.php";
-$newtestarray= array("test"=>45, "test2"=>95);
-echo $newtestarray["test"];
 
 $option = (isset($_POST['submitted']) ? $_POST['submitted'] : null);
 if ($option != null) {
@@ -42,7 +40,7 @@ if ($option != null) {
                 echo '<div id="error">At least one field in your insert request ' .
                     'is empty. Please try again.</div>' . "\n";
             } else {
-                insert($_POST['website_url'],$_POST['website_name'],$_POST['username'],$_POST['user_password'],$_POST['account_comment']);
+                insert($_POST['website_url'],$_POST['website_name'],$_POST['email'],$_POST['username'],$_POST['user_password'],$_POST['account_comment']);
             }
 
             break;
@@ -76,11 +74,6 @@ if ($option != null) {
 
 ?>
 
-
-
-
-
-
 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <fieldset>
         <legend>Search</legend>
@@ -94,7 +87,11 @@ if ($option != null) {
 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <fieldset>
         <legend>Insert</legend>
-        INSERT INTO ACCOUNT VALUES ( <input type="text" name="website_url" placeholder="WEBSITE URL" required>, <input type="text" name="website_name" placeholder="WEBSITE NAME" required>, <input type="text" name="username" placeholder="USERNAME" required>,<input type="text" name="user_password" placeholder="PASSWORD" required>,<input type="text" name="account_comment" placeholder="COMMENT" required>);
+        CREATE NEW ACCOUNT ( <input type="text" name="website_url" placeholder="WEBSITE URL" required>,
+        <input type="text" name="website_name" placeholder="WEBSITE NAME" required>, <input type="text" name="email" placeholder="" required>,
+        <input type="text" name="username" placeholder="USERNAME" required>,<input type="text" name="user_password" placeholder="PASSWORD" required>,
+
+        <textarea name="account_comment" placeholder="COMMENT" required>);</textarea>
         <input type="hidden" name="submitted" value="2">
         <p><input type="submit" value="insert"></p>
     </fieldset>

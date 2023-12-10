@@ -1,5 +1,5 @@
 <?php
-function insert($website_url, $website_name,$username,$user_password,$account_comment) {
+function insert($website_url, $website_name,$email,$username,$user_password,$account_comment) {
     try {
         $db = new PDO(
             "mysql:host=" . DBHOST . "; dbname=" . DBNAME . ";charset=utf8",
@@ -7,11 +7,12 @@ function insert($website_url, $website_name,$username,$user_password,$account_co
             DBPASS
         );
 
-        $statement = $db -> prepare("INSERT INTO account_entry (website_url,website_name,username,user_password,account_comment)VALUES (:website_url, :website_name,:username,:user_password,:account_comment)");
+        $statement = $db -> prepare("INSERT INTO account_entry (website_url,website_name,username,user_password,account_comment)VALUES (:website_url, :website_name,:username,:user_password,:account_comment); INSERT INTO user_info(email) VALUES(:email)");
         $statement -> execute(
             array(
                 'website_url'   => $website_url,
                 'website_name' => $website_name,
+                'email' => $email,
                 'username' => $username,
                 'user_password' => $user_password,
                 'account_comment' => $account_comment
