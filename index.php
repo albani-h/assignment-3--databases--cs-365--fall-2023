@@ -11,7 +11,7 @@
 </header>
 <form id= "refresh" method="post"
 action="<?php echo $_SERVER['PHP_SELF']; ?>">
-<input id=“Refresh_submit-button" type="submit" value=“Refresh>
+<input id=“Refresh_submit-button" type="submit" value=Refresh>
 </form>
 
 
@@ -36,7 +36,7 @@ if ($option != null) {
 
     case 2:
 
-            if (("" == $_POST['website_url']) || ("" == $_POST['website_name'])) {
+            if (("" == $_POST['website_url']) || ("" == $_POST['website_name'])|| ("" == $_POST['email'])|| ("" == $_POST['username'])|| ("" == $_POST['user_password'])) {
                 echo '<div id="error">At least one field in your insert request ' .
                     'is empty. Please try again.</div>' . "\n";
             } else {
@@ -56,7 +56,6 @@ if ($option != null) {
 
             break;
 
-
         case 4:
             if ((0 == $_POST['new-attribute']) && ("" == $_POST['match'])) {
                 echo '<div id="error">One or both fields were empty, ' .
@@ -67,8 +66,6 @@ if ($option != null) {
             }
 
             break;
-
-
     }
 }
 
@@ -83,20 +80,18 @@ if ($option != null) {
     </fieldset>
 </form>
 
-
 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <fieldset>
         <legend>Insert</legend>
         CREATE NEW ACCOUNT ( <input type="text" name="website_url" placeholder="WEBSITE URL" required>,
-        <input type="text" name="website_name" placeholder="WEBSITE NAME" required>, <input type="text" name="email" placeholder="" required>,
+        <input type="text" name="website_name" placeholder="WEBSITE NAME" required>, <input type="text" name="email" placeholder="EMAIL" required>,
         <input type="text" name="username" placeholder="USERNAME" required>,<input type="text" name="user_password" placeholder="PASSWORD" required>,
 
-        <textarea name="account_comment" placeholder="COMMENT" required>);</textarea>
+        <textarea name="account_comment" placeholder="COMMENT" required></textarea>
         <input type="hidden" name="submitted" value="2">
         <p><input type="submit" value="insert"></p>
     </fieldset>
 </form>
-
 
 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <fieldset>
@@ -122,13 +117,13 @@ if ($option != null) {
         <select name="current-attribute" id="current-attribute">
             <option>email</option>
             <option>username</option>
-            <option>user_password</option>
+            <option>password</option>
         </select>
         = <input type="text" name="new-attribute" required> WHERE
         <select name="query-attribute" id="query-attribute">
             <option>email</option>
             <option>username</option>
-            <option>user_password</option>
+            <option>password</option>
         </select>
         = <input type="text" name="match" required>
         <input type="hidden" name="submitted" value="4">

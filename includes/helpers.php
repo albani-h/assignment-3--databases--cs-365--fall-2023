@@ -7,7 +7,7 @@ function insert($website_url, $website_name,$email,$username,$user_password,$acc
             DBPASS
         );
 
-        $statement = $db -> prepare("INSERT INTO account_entry (website_url,website_name,username,user_password,account_comment)VALUES (:website_url, :website_name,:username,:user_password,:account_comment); INSERT INTO user_info(email) VALUES(:email)");
+        $statement = $db -> prepare("INSERT INTO account_entry (website_url,website_name,username,user_password,account_comment)VALUES (:website_url, :website_name,:username,AES_ENCRYPT(:user_password,'key'),:account_comment); INSERT INTO user_info(email) VALUES(:email)");
         $statement -> execute(
             array(
                 'website_url'   => $website_url,
@@ -34,14 +34,11 @@ function search ($search){
             DBPASS
         );
 
-
-        $select_query= "SELECT user_id, website_url, website_name,email, username, CAST(AES_DECRYPT(user_password,'key')AS CHAR) AS password, account_comment FROM everything WHERE website_url LIKE \"%{$search} %\"OR website_name LIKE \"%{$search}%\" OR username LIKE \"%{$search}%\"
-        OR user_password LIKE AES_ENCRYPT('{$search}','key')OR account_comment LIKE \"%{$search}%\" OR email LIKE \"%{$search}%\"";
+        $select_query= "SELECT user_id, website_url, website_name,email, username, AES_DECRYPT(user_password,'key') , account_comment FROM everything WHERE website_url LIKE \"%{$search} %\"OR website_name LIKE \"%{$search}%\" OR username LIKE \"%{$search}%\"
+        OR user_password LIKE AES_ENCRYPT('{$search}','key') OR account_comment LIKE \"%{$search}%\" OR email LIKE \"%{$search}%\"";
 
         $statement = $db->prepare($select_query);
-
         $statement->execute();
-
 
         if (count($statement->fetchAll()) == 0) {
             return 0;
@@ -52,6 +49,7 @@ function search ($search){
             echo "            <th>User ID </th>\n";
             echo "            <th>Website URL</th>\n";
             echo "            <th>Website Name</th>\n";
+            echo "            <th>Email</th>\n";
             echo "            <th>Username</th>\n";
             echo "            <th>User Password</th>\n";
             echo "            <th>Account Comment </th>\n";
@@ -59,7 +57,6 @@ function search ($search){
             echo "        </thead>\n";
             echo "        <tbody>\n";
 
-            // Populate the table with data coming from the database...
             foreach ($db->query($select_query) as $row) {
                 echo "          <tr>\n";
                 echo "            <td>" . htmlspecialchars($row[0]) . "</td>\n";
@@ -68,6 +65,7 @@ function search ($search){
                 echo "            <td>" . htmlspecialchars($row[3]) . "</td>\n";
                 echo "            <td>" . htmlspecialchars($row[4]) . "</td>\n";
                 echo "            <td>" . htmlspecialchars($row[5]) . "</td>\n";
+                echo "            <td>" . htmlspecialchars($row[6]) . "</td>\n";
 
                 echo "          </tr>\n";
             }
@@ -97,7 +95,7 @@ function delete($current_attribute, $match){
     echo '<p id="error">' . $e -> getMessage() . '</p>' . "\n";
 
     exit;
-}
+   }
 }
 
 function update($current_attribute, $new_attribute, $query_attribute, $match)
@@ -120,4 +118,3 @@ function update($current_attribute, $new_attribute, $query_attribute, $match)
         }
     }
 }
-

@@ -87,7 +87,7 @@ form select {
   vertical-align: middle;
 }
 
-form input {
+form input,textarea {
   border: 1px solid var(--color-six);
   padding: 5px;
   background-color: var(--background-color);
